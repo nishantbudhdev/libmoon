@@ -45,11 +45,8 @@ eth.TYPE_LACP = 0x8809
 --- Ethertype for timesync packets
 eth.TYPE_TS = 0x88f7
 
---- Ethertype for Snaprr Trigger
-eth.TYPE_TRIGGER = 0x1236
-
---- Ethertype for Snaprr packetrecord collection
-eth.TYPE_PRCOLL = 0x1237
+--- Ethertype for eCPRI
+eth.TYPE_ECPRI = 0xaefe
 
 --- Special addresses
 --- Ethernet broadcast address
@@ -324,10 +321,8 @@ function etherHeader:getTypeString()
 		cleartext = "(VLAN)"
 	elseif type == eth.TYPE_TS then
 		cleartext = "(TIMESYNC)"
-	elseif type == eth.TYPE_TRIGGER then
-		cleartext = "(TRIGGER)"
-	elseif type == eth.TYPE_PRCOLL then
-		cleartext = "(PACKETRECORD)"
+	elseif type == eth.TYPE_ECPRI then
+		cleartext = "(ECPRI)"
 	else
 		cleartext = "(unknown)"
 	end
@@ -451,8 +446,7 @@ local mapNameType = {
 	ptp = eth.TYPE_PTP,
 	lacp = eth.TYPE_LACP,
 	timesync = eth.TYPE_TS,
-	trigger = eth.TYPE_TRIGGER,
-	packetrecord = eth.TYPE_PRCOLL,
+	ecpri = eth.TYPE_ECPRI,
 }
 
 --- Resolve which header comes after this one (in a packet).

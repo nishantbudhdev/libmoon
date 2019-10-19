@@ -55,6 +55,10 @@ function pkt:getTimesync()
 	return self.timesync
 end
 
+function pkt:getecpri()
+	return self.ecpri
+end
+
 function pkt:dumpFlags()
 	log:debug(tostring(self.ol_flags) .. " " .. tostring(self.tx_offload))
 end
@@ -922,10 +926,9 @@ pkt.getTcpPacket = function(self, ip4)
 	end
 end
 
-pkt.getTimesyncPacket = createStack("eth", "timesync")
-pkt.getPacketrecordPacket = createStack("eth", "packetrecord")
-pkt.getTriggerPacket = createStack("eth", "trigger")
+pkt.getEcpriPacket = createStack("eth", "ecpri")
 
+pkt.getTimesyncPacket = createStack("eth", "timesync")
 pkt.getUdpTimesyncPacket = createStack("eth", "ip4", "udp", "timesync")
 
 pkt.getPtpPacket = createStack("eth", "ptp")
