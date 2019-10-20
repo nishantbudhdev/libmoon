@@ -8,15 +8,6 @@
 --- - Definition of eCPRI packets
 ------------------------------------------------------------------------
 
---[[
--- Use this file as template when implementing a new protocol (to implement all mandatory stuff)
--- Replace all occurrences of PROTO with your protocol (e.g. sctp)
--- Remove unnecessary comments in this file (comments inbetween [[...]])
--- Necessary changes to other files:
--- - packet.lua: if the header has a length member, adapt packetSetLength; 
--- 				 if the packet has a checksum, adapt createStack (loop at end of function) and packetCalculateChecksums
--- - proto/proto.lua: add PROTO.lua to the list so it gets loaded
---]]
 local ffi = require "ffi"
 require "proto.template"
 local initHeader = initHeader
@@ -71,10 +62,6 @@ ecpri.headerVariableMember = nil
 local ecpriHeader = initHeader()
 ecpriHeader.__index = ecpriHeader
 
---[[ for all members of the header with non-standard data type: set, get, getString 
--- for set also specify a suitable default value
---]]
-
 --- Set the eCPRI protocol version.
 --- @param int eCPRI protocol version as 4 bit integer. Is always set to 0.
 function ecpriHeader:setVersion(int)
@@ -102,7 +89,7 @@ end
 
 --- Set the concatenation bit.
 --- @param int concatenation header as 1 bit integer. Is set to 0 for last payload else 1.
-function ecpriHeader:setConcatenationBit:(int)
+function ecpriHeader:setConcatenationBit(int)
 	int = int or 1
 	
 	old = self.rev_res_c
@@ -126,7 +113,7 @@ end
 
 --- Set eCPRI message type.
 --- @param int eCPRI message type as 8 bit integer.
-function ecpriHeader:setMessageType:(int) 
+function ecpriHeader:setMessageType(int) 
 	self.msg_type:set(int)
 end
 
@@ -169,13 +156,14 @@ function ecpriHeader:getMessageTypeString()
 		cleartext = "(IWF Delay Control)"
 	else
 		cleartext = "(Reserved or Operator Specific)"
+	end
 
 	return format("0x%02x %s", messageType, cleartext)
 end
 
 --- Set eCPRI payload size.
 --- @param int payload size as 16 bit integer.
-function ecpriHeader:setPayloadLength:(int) 
+function ecpriHeader:setPayloadLength(int) 
 	self.len:set(int)
 end
 
