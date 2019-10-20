@@ -195,10 +195,10 @@ function ecpriHeader:fill(args, pre)
 	args = args or {}
 	pre = pre or "ecpri"
 
-	self:setVersion(args[pre .. "Version"])
-	self:setConcatenationBit(args[pre .. "ConcatenationBit"])
-	self:setMessageType(args[pre .. "MessageType"])
-	self:setLength(args[pre .. "PayloadLength"])
+--	self:setVersion(args[pre .. "Version"])
+--	self:setConcatenationBit(args[pre .. "ConcatenationBit"])
+--	self:setMessageType(args[pre .. "MessageType"])
+--	self:setLength(args[pre .. "PayloadLength"])
 end
 
 --- Retrieve the values of all members.
@@ -245,14 +245,14 @@ end
 --- @see ecpriHeader:fill
 function ecpriHeader:setDefaultNamedArgs(pre, namedArgs, nextHeader, accumulatedLength)
 	-- set version
-	if not namedArgs[pre .. "Version"] then
-		namedArgs[pre .. "Version"] = 0
-	end
+--	if not namedArgs[pre .. "Version"] then
+--		namedArgs[pre .. "Version"] = 0
+--	end
 
 	-- set concatenation bit
-	if not namedArgs[pre .. "ConcatenationBit"] then
-		namedArgs[pre .. "ConcatenationBit"] = 0
-	end
+--	if not namedArgs[pre .. "ConcatenationBit"] then
+--		namedArgs[pre .. "ConcatenationBit"] = 0
+--	end
 
 	return namedArgs
 end
