@@ -21,29 +21,29 @@ local initHeader = initHeader
 local ecpri = {}
 
 --- message type IQ Pairs
-ecpri.TYPE_IQ = 0 
+ecpri.TYPE_IQ = 0x00 
 --- message type bit sequence
-ecpri.TYPE_BIT = 1
+ecpri.TYPE_BIT = 0x01
 --- message type real-time control data (PHY plane control data based on split)
-ecpri.TYPE_RTCTRL = 2 
+ecpri.TYPE_RTCTRL = 0x02 
 --- message type generic data transfer
-ecpri.TYPE_DATA = 3
+ecpri.TYPE_DATA = 0x03
 --- message type remote memory access
-ecpri.TYPE_MEM = 4
+ecpri.TYPE_MEM = 0x04
 --- message type one-way delay measurement
-ecpri.TYPE_DELAY = 5 
+ecpri.TYPE_DELAY = 0x05 
 --- message type remote reset
-ecpri.TYPE_RESET = 6 
+ecpri.TYPE_RESET = 0x06 
 --- message type event indication
-ecpri.TYPE_EVENT = 7 
+ecpri.TYPE_EVENT = 0x07 
 --- message type IWF start-up
-ecpri.TYPE_IWF_START = 8 
+ecpri.TYPE_IWF_START = 0x08 
 --- message type IWF operation
-ecpri.TYPE_IWF_OP = 9 
+ecpri.TYPE_IWF_OP = 0x09 
 --- message type IWF mapping
-ecpri.TYPE_IWF_MAP = 10 
+ecpri.TYPE_IWF_MAP = 0x0a 
 --- message type IWF delay control
-ecpri.TYPE_IWF_DELAYCTRL = 11 
+ecpri.TYPE_IWF_DELAYCTRL = 0x0b 
 
 ---------------------------------------------------------------------------
 ---- eCPRI header
@@ -114,7 +114,8 @@ end
 --- Set eCPRI message type.
 --- @param int eCPRI message type as 8 bit integer.
 function ecpriHeader:setMessageType(int) 
-	self.msg_type:set(int)
+	int = int or ecpri.TYPE_IQ
+	self.msg_type = int
 end
 
 
@@ -164,7 +165,7 @@ end
 --- Set eCPRI payload size.
 --- @param int payload size as 16 bit integer.
 function ecpriHeader:setPayloadLength(int) 
-	self.len:set(int)
+	self.len = hton16(int)
 end
 
 
@@ -193,12 +194,11 @@ end
 --- @endcode
 function ecpriHeader:fill(args, pre)
 	args = args or {}
-	pre = pre or "ecpri"
 
 --	self:setVersion(args[pre .. "Version"])
 --	self:setConcatenationBit(args[pre .. "ConcatenationBit"])
---	self:setMessageType(args[pre .. "MessageType"])
---	self:setLength(args[pre .. "PayloadLength"])
+	self:setMessageType(args["msgType"])
+	self:setPayloadLength(args["payloadLength"])
 end
 
 --- Retrieve the values of all members.
